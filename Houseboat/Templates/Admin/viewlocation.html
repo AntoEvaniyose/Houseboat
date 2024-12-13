@@ -1,0 +1,112 @@
+{% load static %}
+{% include 'Admin/header.html' %}
+
+
+<script src="{% static 'Admin/jquery.min.js' %}"></script>
+<!-- <script src="/jquery.min.js"></script> -->
+
+
+<script>
+
+  $(document).ready(function() {
+<!--     alert('a');-->
+   $.ajaxSetup({
+      headers: { "X-CSRFToken": '{{csrf_token}}' }
+    });
+    $('#districtid').change(function () {
+      var district = $(this).val();
+<!--       alert(district);-->
+
+      $.ajax({
+        type: "POST",
+        url: '{% url "filllocation" %}',
+        data: { did: district },
+        dataType: "json",
+        success: function (data) {
+          $('#location').empty();
+<!--         alert("test");-->
+            $.each(data, function (key, val) {
+          var id=val.locationid;
+<!--          alert(id);-->
+           var editurl='{% url "locationedit" 0 %}'.replace('0', id);
+          var deleteurl='{% url "locationdelete" 0 %}'.replace('0', id);
+            s = 1;
+            var row = '<tr><td>' + s++ + '</td>' +
+              '<td>' + val.locationname + '</td>'+
+
+                                '<td class="text-danger"><a href="' + editurl +'"><button class="btn btn-primary">Edit</button></a></td>'+
+                                '<td class="text-danger"><a href="' + deleteurl +'"><button class="btn btn-danger" onclick="return confirm(\'Are you sure you want to delete?\')">Delete</button></a></td>' +
+              '</tr>';
+                 $('#location').append(row);
+
+        });
+
+        }
+      });
+    });
+  });
+
+
+</script>
+
+
+<div class="col-10">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">Location View</h6>
+                        <div class="table-responsive">
+                            <table class="table">
+                    <thead>
+                    <div class="mb-3">
+                    <label for="districtid" class="form-label">Select District</label><br>
+                    <select name="districtid" class="form-control" id="districtid">
+                        <option selected>select</option>
+                        {% for d in district %}
+                        <option value="{{d.districtid}}">{{d.districtname}}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+                <br>
+                <br>
+
+
+
+                        <tr>
+                                    <th scope="col">SI N0</th>
+                                    <th scope="col">Location Name</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                                </thead>
+                        <tbody id="location">
+                        {% for d in location %}
+                        <tr>
+                            <td>{{ forloop.counter}}</td>
+                            <td>{{d.locationname}}</td>
+
+                            <td>
+
+                                <a href="{% url 'locationedit' id=d.locationid %}">
+                                    <button type="submit" class="btn btn-primary">edit</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'locationdelete' id=d.locationid %}">
+                                    <button type="submit" class="btn btn-danger"onclick="return confirm('did u want to delete')">delete</button>
+                                </a>
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table><br>
+                             {% include 'Admin/footer.html' %}
+                </div>
+            </div>
+        </div>
+
+
+
+

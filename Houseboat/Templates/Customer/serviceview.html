@@ -1,0 +1,40 @@
+{% load static %}
+{% include 'Customer/header.html' %}
+<br><br><br><br><br><br><br><br>
+<div class="col-12">
+    <div class="bg-light rounded h-100 p-4">
+
+
+
+        <h6 class="mb-4">View Service</h6>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">SI N0</th>
+                    <th scope="col">Service Name</th>
+                    <th scope="col">Service Amount</th>
+                    <th scope="col">View Boat</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for d in service %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{d.servicename}}</td>
+                    <td>{{d.serviceamount}}</td>
+
+
+                        <td><a href="{% url 'viewboat' id=d.serviceid %}">
+                        <button type="button" class="btn btn-primary">View Boat</button>
+                        </a></td>
+
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+<br><br>
+
+        {% include 'Customer/footer.html' %}

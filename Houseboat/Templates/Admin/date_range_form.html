@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% load static %}
+{% include "Admin/header.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Date Range</title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+
+<!--    <div class="main-panel">-->
+<!--        <div class="content-wrapper">-->
+            <div class="row">
+<!--                <div class="col-md-6 grid-margin stretch-card">-->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="col">
+                                <label for="fromDate">From Date:</label>
+                                <!--        <input type="date" id="fromDate" name="fromDate" required><br><br>-->
+                                <div id="the-basics">
+                                    <input class="typeahead" type="date" name="fromDate"
+                                           id="fromDate" required>
+                                </div>
+                                <label for="toDate">To Date:</label>
+                                <!--        <input type="date" id="toDate" name="toDate" required><br><br>-->
+                                <div id="the-basics">
+                                    <input class="typeahead" type="date" name="toDate"
+                                           id="toDate" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                </div>-->
+
+                <button type="submit" class="btn btn-primary me-2">Generate Pie Chart</button>
+</form>
+
+</body>
+</html>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+{% include "Admin/footer.html" %}

@@ -1,0 +1,35 @@
+{% load static %}
+{% include 'Admin/header.html' %}
+
+<div class="col-10">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">Payment View</h6>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">SI N0</th>
+                                    <th scope="col">Owner Name</th>
+                                    <th scope="col">Customer Name</th>
+                                    <th scope="col">Boat Name</th>
+                                    <th scope="col">Payment Amount</th>
+                                    <th scope="col">Admin Amount</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for d in viewpayment %}
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{d.requestid__boatid__loginid__tbl_owner__ownername}}</td>
+                                    <td>{{d.customerid__customername}}</td>
+                                    <td>{{d.requestid__boatid__boatname}}</td>
+                                    <td>{{d.paymentamount}}</td>
+                                    <td>{{d.adminamount}}</td>
+                                </tr>
+                                {%endfor%}
+
+                            </table>
+                        </div>
+
+
+                      {% include 'Admin/footer.html' %}

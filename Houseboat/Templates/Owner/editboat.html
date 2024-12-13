@@ -1,0 +1,157 @@
+<!-- partial -->
+{% load static %}
+{% include 'Owner/header.html' %}
+<br><br><br><br>
+
+
+<script src="{% static 'Guest/js/jquery-3.2.1.min.js'%}"></script>
+
+<script>
+$(document).ready(function() {
+<!--    alert('hi');-->
+    $.ajaxSetup({
+        headers: {"X-CSRFToken" : '{{csrf_token}}'}
+    });
+
+    $('#category').change(function() {
+        var category = $(this).val();
+<!--        alert(category);-->
+        $.ajax({
+            type: "POST",
+            url: '{% url "editchoosepackage" %}',
+            data: { packid: category },
+            dataType: "json",
+            success: function (data) {
+                $('#package').empty();
+                var coll = '<option value="">Choose Package</option>';
+                $('#package').append(coll);
+                $.each(data,function(key,val) {
+                    var col = '<option name="location" style="color:black;" value="' + val.packageid + '">' + val.packagename + '</option>';
+                    $('#package').append(col);
+                });
+            }
+        });
+    });
+
+    $('#package').change(function() {
+        var package = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: '{% url "editchooseservices" %}',
+            data: { serid: package },
+            dataType: "json",
+            success: function (data) {
+                $('#serviceid').empty();
+                var coll = '<option value="">Choose Services</option>';
+                $('#serviceid').append(coll);
+                $.each(data,function(key,val) {
+                    var col = '<option name="location" style="color:black;" value="' + val.serviceid + '">' + val.servicename + '</option>';
+                    $('#serviceid').append(col);
+                });
+            }
+        });
+    });
+});
+</script>
+
+
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Edit Boat</h4>
+                        <form method="POST" action="{% url 'editboat' boat.boatid %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="mb-3">
+                                <label class="form-label">Select Category</label>
+                                <div class="form-row">
+                                     <select class="form-select form-select-lg mb-3" aria-label="Large select example"
+                                            id="category" name="categoryname">
+                                        <option selected>select</option>
+                                        {% for d in category %}
+                                        {% if boat.categoryid.categoryid == d.categoryid %}
+                                        <option value="{{d.categoryid}}" selected>{{d.categoryname}}</option>
+                                        {% else %}
+
+                                        <option value="{{d.categoryid}}">{{d.categoryname}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Select Package</label>
+                                <div class="form-row">
+                                   <select class="form-select form-select-lg mb-3" aria-label="Large select example" id="package" name="packagename">
+
+                                        <option selected>select</option>
+                                        {% for d in package %}
+                                        {% if boat.packageid.packageid == d.packageid %}
+                                        <option value="{{d.packageid}}" selected>{{d.packagename}}</option>
+                                        {% else %}
+
+                                        <option value="{{d.packageid}}">{{d.packagename}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="form-row">
+                                <label for="serviceid">Select Service</label>
+                                <select class="form-select form-select-lg mb-3" aria-label="Large select example"
+                                        id="serviceid" name="serviceid">
+                                    <option selected>select</option>
+                                    {% for s in service %}
+                                    {% if boat.serviceid.serviceid == s.serviceid %}
+                                    <option value="{{s.serviceid}}" selected>{{s.servicename}}</option>
+                                    {% else %}
+                                    <option value="{{s.serviceid}}">{{s.servicename}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="formFile" class="form-label">Boat Image</label>
+                                <img src="/images/{{boat.boatimage}}" width="200px" ,height="200px">
+                                <input type="hidden" name="oldimg" value="{{boat.boatimage}}" required>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <input class="form-control" type="file" id="formFile" name="image">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"> Boat Name</label>
+                                <input type="text" name="boatname" value='{{boat.boatname}}' class="form-control"
+                                       id="boatname"
+                                       aria-describedby="emailHelp" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"> Boat Amount</label>
+                                <input type="text" name="boatamount" value='{{boat.boatamount}}' class="form-control"
+                                       id="boatamount"
+                                       aria-describedby="emailHelp" required>
+                            </div>
+
+
+                            <button type="submit" name="submit" class="btn btn-primary">DONE</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'Owner/footer.html' %}
+

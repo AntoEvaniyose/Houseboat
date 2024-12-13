@@ -1,0 +1,40 @@
+{% load static %}
+{% include 'Customer/header.html' %}
+<br><br><br><br><br><br><br><br>
+<div class="col-12">
+    <div class="bg-light rounded h-100 p-4">
+        <h6 class="mb-4">View Package</h6>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">SI N0</th>
+                    <th scope="col">Package Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Number of Days</th>
+                    <th scope="col">View</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for d in package %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{d.packagename}}</td>
+                    <td>{{d.description}}</td>
+                    <td>{{d.amount}}</td>
+                    <td>{{d.days}}</td>
+
+                     <td><a href="{% url 'serviceview' id=d.packageid %}">
+                        <button type="button" class="btn btn-primary">View Service</button>
+                        </a></td>
+
+
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+<br><br>
+
+        {% include 'Customer/footer.html' %}

@@ -1,0 +1,40 @@
+{% load static %}
+{% include 'Admin/header.html' %}
+
+<div class="col-10">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">Responsive Table</h6>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">SI N0</th>
+                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for d in category %}
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{d.categoryname}}</td>
+                                    <td>
+                                       <img src="/images/{{d.image}}" style="width:200px;height:200px">
+                                    </td>
+                                    <td><a href="{% url 'editcategory' id=d.categoryid %}">
+                                        <button type="button" class="btn btn-primary">Edit</button>
+                                    </a></td>
+                                    <td><a href="{% url 'deletecategory' id=d.categoryid %}"
+                                           onclick="return confirm('Do you Want to delete')">
+                                        <button type="button" class="btn btn-danger">Delete</button>
+                                    </a></td>
+                                </tr>
+                                {%endfor%}
+
+                            </table>
+                        </div>
+
+
+                      {% include 'Admin/footer.html' %}

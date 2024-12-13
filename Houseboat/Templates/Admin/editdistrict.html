@@ -1,0 +1,26 @@
+<!-- partial -->
+{% load static %}
+{% include 'Admin/header.html' %}
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Edit District</h4>
+                  <form method="POST" action="{% url 'districtedit' dist.districtid%}">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">District Name</label>
+                        <input type="text" name="districtname" value='{{dist.districtname}}' class="form-control" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" required>
+                    </div>
+
+
+                    <button type="submit" name="submit" class="btn btn-primary">DONE</button>
+                </form>
+                </div>
+              </div>
+            </div>
+            {% include 'Admin/footer.html' %}

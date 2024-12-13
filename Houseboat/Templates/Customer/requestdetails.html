@@ -1,0 +1,174 @@
+{% include 'Customer/header.html' %}
+{% load static %}
+
+<script src="{% static 'Guest/js/jquery-3.2.1.min.js'%}"></script>
+<script>
+$(document).ready(function () {
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+    });
+
+    $('#edate').change(function () {
+        var startDate = new Date($('#sdate').val());
+        var endDate = new Date($(this).val());
+        var amt = parseFloat($('#amt').val());
+
+        // Calculate the difference in days
+        var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+        var edate = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        if (!isNaN(edate)) {
+            var totalAmount = amt * edate;
+            $('#totalAmount').val(totalAmount);
+        } else {
+            alert("Invalid date selection");
+        }
+    });
+});
+
+// Function to compare dates
+function validateDates() {
+    var startDate = document.getElementById("sdate").value;
+    var endDate = document.getElementById("edate").value;
+
+    // Convert to Date objects and compare
+    if (new Date(startDate) >= new Date(endDate)) {
+        alert("The end date must be greater than the start date.");
+        document.getElementById("edate").value = ""; // Reset the end date
+        return false;
+    }
+    return true;
+}
+
+
+
+
+
+</script>
+
+<!-- ##### Breadcumb Area Start ##### -->
+<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
+         style="background-image: url({% static 'img/bg-img/bg-2.jpg' %});">
+    <div class="bradcumbContent">
+        <h2>Request Details</h2>
+    </div>
+</section>
+<!-- ##### Breadcumb Area End ##### -->
+
+<!-- ##### About Us Area Start ##### -->
+<section class="about-us-area">
+    <div class="container">
+        <div class="row align-items-center">
+            {% for c in requestdetails %}
+            <div class="col-12 col-lg-6">
+                <div class="about-text mb-100">
+                    <div class="section-heading">
+                        <h2>{{ c.boatname }}</h2>
+                        <div class="line-"></div>
+
+                    </div>
+                    <p>services provided: {{ c.serviceid__servicename }}</p>
+
+                    <p>packages provided: {{ c.packageid__packagename }}</p>
+
+
+                    <form action="" method="POST">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                Number of Persons
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="persons" required pattern="^[0-9]+$" title="Enter only digits">
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                From Date
+                            </div>
+                            <div class="col-md-8">
+                                <input type="date" id="sdate" name="fromdate" required>
+                                <script>
+    document.addEventListener("DOMContentLoaded", function() {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = yyyy + '-' + mm + '-' + dd;
+  document.getElementById("sdate").setAttribute("min", today);
+});
+
+                                </script>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                To Date
+                            </div>
+                            <div class="col-md-8">
+                                <input type="date" id="edate" name="todate"  required onchange="validateDates()">
+                                <script>
+    document.addEventListener("DOMContentLoaded", function() {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = yyyy + '-' + mm + '-' + dd;
+  document.getElementById("edate").setAttribute("min", today);
+});
+
+                                </script>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                Total Amount
+                            </div>
+                            <input type="hidden"  id="amt" value="{{total}}"  name="totalamount" readonly>
+
+                            <div class="col-md-8">
+                                <input type="text" id="totalAmount" name="totalamount" readonly>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4">
+                                Remark :
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="requestremark" style="height: 100px; width: 320px;" required>
+                            </div>
+                        </div>
+
+
+                        <input type="hidden" name="id" value="{{ c.boatid }}">
+                        <br>
+                        <button href="" class="btn palatin-btn mt-50" type="submit">Request</button>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="col-12 col-lg-6">
+                <div class="about-thumbnail mb-100">
+                    <img src="/images/{{c.boatimage}}" style="width:400px" alt="">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- ##### About Us Area End ##### -->
+
+{% include 'Customer/footer.html' %}

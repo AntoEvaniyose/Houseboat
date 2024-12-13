@@ -1,0 +1,44 @@
+{% load static %}
+{% include 'Admin/header.html' %}
+
+<div class="col-10">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">Responsive Table</h6>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">SI N0</th>
+                                    <th scope="col">Owner Name</th>
+                                    <th scope="col">License Number</th>
+                                    <th scope="col">Contact Number</th>
+                                    <th scope="col">Email ID</th>
+                                    <th scope="col">Accept</th>
+                                    <th scope="col">Reject</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for d in ownerrequest %}
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{d.ownername}}</td>
+                                     <td>{{d.licenseno}}</td>
+                                    <td>{{d.contactno}}</td>
+                                    <td>{{d.email}}</td>
+
+
+                                    <td><a href="{% url 'verify' d.loginid.loginId %}">
+                                        <button type="button" class="btn btn-primary">Accept</button>
+                                    </a></td>
+                                    <td><a href="{% url 'reject' d.loginid.loginId %}"
+                                           onclick="return confirm('Do you Want to reject')">
+                                        <button type="button" class="btn btn-danger">Reject</button>
+                                    </a></td>
+                                </tr>
+                                {%endfor%}
+
+                            </table>
+                        </div>
+
+
+                      {% include 'Admin/footer.html' %}

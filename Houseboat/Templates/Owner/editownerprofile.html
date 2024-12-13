@@ -1,0 +1,176 @@
+{% load static %}
+{% include "Owner/header.html" %}
+<!DOCTYPE html>
+<html lang="en"><br><br><br><br><br>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+    <title>Edit Owner Profile</title>
+    <link href="{% static 'Profile/vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'Profile/vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="{% static 'Profile/vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'Profile/vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'Profile/css/main.css' %}" rel="stylesheet" media="all">
+    <style>
+        /* Add custom styles here */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            margin: 50px auto;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 25px;
+        }
+        .label {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .input--style-4 {
+            width: calc(100% - 24px);
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+            font-size: 18px;
+            margin-top: 5px;
+            background-color: #f9f9f9;
+        }
+        .input--style-4:focus {
+            outline: none;
+            border-color: #6bb0ff;
+        }
+        .btn--radius-2 {
+            display: inline-block;
+            padding: 15px 35px;
+            border-radius: 30px;
+            background-color: #6bb0ff;
+            color: #fff;
+            font-size: 18px;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            width: 100%;
+            max-width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        .btn--radius-2:hover {
+            background-color: #4a8eff;
+        }
+        select {
+            width: calc(100% - 24px);
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+            font-size: 18px;
+            margin-top: 5px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>');
+            background-repeat: no-repeat;
+            background-position: right 8px top 50%;
+            background-size: 16px;
+            padding-right: 32px;
+        }
+        select:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2 class="title">Edit Owner Profile</h2>
+    <form method="POST" action="{% url 'editownerprofile' owner.ownerid %}">
+        {% csrf_token %}
+        <div class="input-group">
+            <label class="label">Owner Name</label>
+            <input class="input--style-4" type="text" value="{{owner.ownername}}" name="ownername">
+        </div>
+        <div class="input-group">
+            <label class="label">License Number</label>
+            <input class="input--style-4" type="text" value="{{owner.licenseno}}" name="licenseno">
+        </div>
+        <div class="input-group">
+            <label class="label">Phone Number</label>
+            <input class="input--style-4 " type="text" value="{{owner.contactno}}" name="contactno">
+        </div>
+        <div class="input-group">
+            <label class="label">Email</label>
+            <input class="input--style-4" type="text" value="{{owner.email}}" name="email">
+        </div>
+        <div class="input-group">
+            <label class="label">District Name</label>
+            <select id="district" class="input--style-4" name="districtname">
+                <option value="{{ owner.locationid.districtid_id }}" selected>{{ owner.locationid.districtid.districtname }}</option>
+                {% for d in distview %}
+                    <option value="{{ d.districtid }}">{{ d.districtname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="input-group">
+            <label class="label">Location Name</label>
+            <select id="location" class="input--style-4" name="locationname">
+                {% if owner.locationid %}
+                    <option value="{{ owner.locationid_id }}" selected>{{ owner.locationid.locationname }}</option>
+                {% endif %}
+            </select>
+        </div>
+        <button class="btn btn--radius-2 btn--blue" type="submit">Update</button>
+    </form>
+</div>
+<script src="{% static 'Profile/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'Profile/vendor/select2/select2.min.js' %}"></script>
+<script src="{% static 'Profile/vendor/datepicker/moment.min.js' %}"></script>
+<script src="{% static 'Profile/vendor/datepicker/daterangepicker.js' %}"></script>
+<script src="{% static 'Profile/js/global.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {"X-CSRFToken": '{{csrf_token}}'}
+        });
+        $("#district").change(function() {
+            var c = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: '{% url "ownlocation" %}',
+                data: {did: c},
+                dataType: "json",
+                success: function(data) {
+                    $('#location').empty();
+                    $.each(data, function(key, val) {
+                        var row = '<option value="' + val.locationid + '">' + val.locationname + '</option>';
+                        $('#location').append(row);
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% include "Owner/footer.html" %}
+</body>
+</html>

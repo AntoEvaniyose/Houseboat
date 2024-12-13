@@ -1,0 +1,32 @@
+<!-- partial -->
+{% load static %}
+{% include 'Admin/header.html' %}
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">District Registeration</h4>
+                  <p class="card-description">
+
+                  </p>
+                  <form class="forms-sample" action="{% url 'district'%}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">District Name</label>
+                      <input type="text" class="form-control" id="exampleInputUsername1" placeholder="districtname" name="districtname" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    {% comment %}
+                    <button type="reset" class="btn btn-primary mr-2">Cancel</button>
+                    {% endcomment %}
+
+
+                  {{error}}
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% include 'Admin/footer.html' %}

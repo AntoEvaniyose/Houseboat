@@ -1,0 +1,188 @@
+{% load static %}
+{% include "Customer/header.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+    <title>Edit Customer Profile</title>
+    <link href="{% static 'Profile/vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'Profile/vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="{% static 'Profile/vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'Profile/vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'Profile/css/main.css' %}" rel="stylesheet" media="all">
+    <style>
+        /* Add custom styles here */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .label {
+            font-size: 16px;
+            color: #555;
+        }
+        .input--style-4 {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        .input--style-4:focus {
+            outline: none;
+            border-color: #6bb0ff;
+        }
+        .btn--radius-2 {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 25px;
+            background-color: #6bb0ff;
+            color: #fff;
+            font-size: 16px;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+        .btn--radius-2:hover {
+            background-color: #4a8eff;
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w680">
+        <div class="card card-4">
+            <div class="card-body">
+                <h2 class="title">Edit Customer Profile</h2>
+                <form method="POST" action="{% url 'editcustomerprofile' customer.customerid %}">
+                    {% csrf_token %}
+                    <div class="row row-space">
+                        <div class="col-5">
+                            <div class="input-group">
+                                <label class="label">Customer Name</label>
+                                <input class="input--style-4" type="text" value="{{customer.customername}}" name="customername">
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="input-group">
+                                <label class="label">House Name</label>
+                                <input class="input--style-4" type="text" value="{{customer.housename}}" name="housename">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-5">
+                            <div class="input-group">
+                                <label class="label">Phone Number</label>
+                                <input class="input--style-4 " type="text" value="{{customer.phoneno}}" name="phoneno">
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="input-group">
+                                <label class="label">Pincode</label>
+                                <input class="input--style-4" type="text" value="{{customer.pincode}}" name="pincode">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-5">
+                            <div class="input-group">
+                                <label class="label">Email</label>
+                                <input class="input--style-4" type="text" value="{{customer.emailid}}" name="emailid">
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="input-group">
+                                <label class="label">District Name</label>
+                                <select id="district" class="input--style-4" name="districtname">
+                                    <option value="{{ customer.locationid.districtid_id }}" selected>{{ customer.locationid.districtid.districtname }}</option>
+                                    {% for d in distview %}
+                                        <option value="{{ d.districtid }}">{{ d.districtname }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <label class="label">Location Name</label>
+                                <select id="location" class="input--style-4" name="locationname">
+                                    {% if customer.locationid %}
+                                        <option value="{{ customer.locationid_id }}" selected>{{ customer.locationid.locationname }}</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-t-15">
+                        <button class="btn btn--radius-2 btn--blue" type="submit">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'Profile/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'Guest/js/jquery-3.2.1.min.js'%}"></script>
+<script src="{% static 'Profile/vendor/select2/select2.min.js' %}"></script>
+<script src="{% static 'Profile/vendor/datepicker/moment.min.js' %}"></script>
+<script src="{% static 'Profile/vendor/datepicker/daterangepicker.js' %}"></script>
+<script src="{% static 'Profile/js/global.js' %}"></script>
+
+<script>
+        $(document).ready(function()
+         {
+<!--         alert("hi");-->
+            $.ajaxSetup({
+            headers:{"X-CSRFToken" : '{{csrf_token}}'}
+            });
+            $("#district").change(function() {
+                var c = $(this).val();
+<!--            alert(c);-->
+
+                $.ajax({
+                    type: "POST",
+                    url: '{% url "custlocation" %}',
+                    data: {did: c},
+                    dataType: "json",
+                    success : function(data)
+                    {
+                        $('#location').empty();
+                        $.each(data,function(key,val) {
+                            var row = '<option value="' +val.locationid+ '">' +val.locationname+ '</option>';
+                            $('#location').append(row);
+                        });
+                    }
+                    });
+            });
+         });
+         document.addEventListener("DOMContentLoaded", function() {
+        var districtSelect = document.getElementById("district");
+        var districtName = "{{ customer.locationid.districtid.districtname }}";
+        for (var i = 0; i < districtSelect.options.length; i++) {
+
+        }
+    });
+</script>
+{% include "Customer/footer2.html" %}
+</body>
+</html>

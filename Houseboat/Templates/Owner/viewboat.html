@@ -1,0 +1,114 @@
+{% load static %}
+{% include 'Owner/header.html' %}
+<br><br><br><br><br>
+
+<script src="{% static 'Guest/js/jquery-3.2.1.min.js'%}"></script>
+
+
+<script>
+
+  $(document).ready(function() {
+   $.ajaxSetup({
+      headers: { "X-CSRFToken": '{{csrf_token}}' }
+    });
+    $('#categoryid').change(function () {
+      var categoryid = $(this).val();
+
+      $.ajax({
+        type: "POST",
+        url: '{% url "fillcategory" %}',
+        data: { catid: categoryid },
+        dataType: "json",
+        success: function (data) {
+          $('#details').empty();
+          s = 1;
+            $.each(data, function (key, val) {
+          var id=val.boatid;
+<!--alert(id);-->
+           var editurl='{% url "editboat" 0 %}'.replace('0', id);
+          var deleteurl='{% url "deleteboat" 0 %}'.replace('0', id);
+            var row = '<tr><td>' + s++ + '</td>' +
+            '<td>' + val.packageid__packagename+ '</td>'+
+              '<td>' + val.serviceid__servicename + '</td>'+
+              '<td><img src="/images/'+val.boatimage+'" style="width:200px;height:200px;"></td>'+
+              '<td>' + val.boatname + '</td>'+
+              '<td>' + val.boatamount + '</td>'+
+
+                '<td class="text-danger"><a href=" ' + editurl +'"><button style="background-color:blue ;color:white; border-radius:30px;border:none;width:80px; ">Edit</button></a></td>'+
+                '<td class="text-danger"><a href=" ' + deleteurl +'"><button style="background-color:red ;color:white; border-radius:30px;border:none;width:80px; ">Delete</button></a></td>'
+              '</tr>';
+                 $('#details').append(row);
+
+        });
+
+        }
+      });
+    });
+  });
+
+
+
+
+
+
+</script>
+
+
+<div class="col-15">
+    <div class="bg-light rounded h-100 p-4">
+        <h6 class="mb-4">BOAT VIEW</h6>
+
+        <div class="mb-4">
+            <label for="categoryid" class="form-label">Select Category</label><br>
+            <select name="categoryid" class="form-control" id="categoryid">
+                <option selected>select</option>
+                {% for d in category %}
+                <option value="{{d.categoryid}}">{{d.categoryname}}</option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">SI N0</th>
+                    <th scope="col">Package Name</th>
+                    <th scope="col">Service Name</th>
+                    <th scope="col">Boat Image</th>
+                    <th scope="col">Boat Name</th>
+                    <th scope="col">Boat Amount</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody id="details">
+                {% for d in boat %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{d.packageid.packagename}}</td>
+                    <td>{{d.serviceid.servicename}}</td>
+                    <td><img src="/images/{{d.boatimage}}" style="width:200px;height:200px"></td>
+                    <td>{{d.boatname}}</td>
+                    <td>{{d.boatamount}}</td>
+
+
+                    <td><a href="{% url 'editboat' id=d.boatid %}">
+                        <button type="button" class="btn btn-primary">Edit</button>
+                    </a></td>
+                    <td><a href="{% url 'deleteboat' id=d.boatid %}"
+                           onclick="return confirm('Do you Want to delete')">
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </a></td>
+                </tr>
+                {%endfor%}
+
+            </table>
+        </div>
+    </div>
+</div>
+
+{% include 'Owner/footer.html' %}
+

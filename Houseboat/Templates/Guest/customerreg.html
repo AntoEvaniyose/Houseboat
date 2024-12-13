@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<script src="{% static 'Guest/js/jquery-3.2.1.min.js'%}"></script>
+<script>
+   $(document).ready(function()
+    {
+<!--alert('hi');-->
+        $.ajaxSetup({
+            headers: {"X-CSRFToken" : '{{csrf_token}}'}
+        });
+        $('#districtid').change(function()
+        {
+            var district=$(this).val();
+<!--            alert(district);-->
+            $.ajax({
+                type:"POST",
+                url:'{% url "selectlocation" %}',
+                data:{did:district},
+                dataType:"json",
+                success:function(data)
+                {
+                    $('#locationid').empty();
+                    var coll='<option value="">Choose Location</<option>';
+                    $('#locationid').append(coll);
+                    $.each(data,function(key,val){
+                    var col='<option name="location"  style="color:black;"value="' +val.locationid+' ">'+val.locationname+'</option>';
+                    $('#locationid').append(col);
+                    });
+                }
+            });
+        });
+    });
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Au Register Forms by Colorlib</title>
+
+    <!-- Icons font CSS-->
+    <link href="{% static 'Customerreg/vendor/mdi-font/css/material-design-iconic-font.min.css'%}" rel="stylesheet" media="all">
+    <link href="{% static 'Customerreg/vendor/font-awesome-4.7/css/font-awesome.min.css'%}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'Customerreg/vendor/select2/select2.min.css'%}" rel="stylesheet" media="all">
+    <link href="{% static 'Customerreg/vendor/datepicker/daterangepicker.css'%}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'Customerreg/css/main.css'%}" rel="stylesheet" media="all">
+</head>
+
+<body>
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5">
+                <div class="card-heading">
+                    <h2 class="title">Customer Registration</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'customerreg'%}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="name">Customer Name</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="customername" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">House Name</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="housename" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Select District</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <select name="districtid" class="input--style-5" id="districtid" required>
+                                    <option selected>select</option>
+                                    {% for d in district %}
+                                    <option value="{{d.districtid}}">{{d.districtname}}</option>
+                                    {% endfor %}
+
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row">
+                            <div class="name">Select Location</div>
+                            <div class="value">
+                                <div class="input-group">
+                                <select name="locationid" class="input--style-5" id="locationid">
+                                    <option selected disabled>select</option>
+<!--                                                                    {% for d in location %}-->
+<!--                                                                    <option value="{{d.locationid}}">{{d.locationname}}</option>-->
+<!--                                                                    {% endfor %}-->
+                                </select>
+                            </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-row">
+                            <div class="name">Email</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="email" name="emailid" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Pin Code</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="pincode" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Phone Number</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="phoneno" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Username</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="username" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Password</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="password" required>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div>
+                            <button class="btn btn--radius-2 btn--red" type="submit">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery JS-->
+    <script src="{% static 'Customerreg/vendor/jquery/jquery.min.js'%}"></script>
+    <!-- Vendor JS-->
+    <script src="{% static 'Customerreg/vendor/select2/select2.min.js'%}"></script>
+    <script src="{% static 'Customerreg/vendor/datepicker/moment.min.js'%}"></script>
+    <script src="{% static 'Customerreg/vendor/datepicker/daterangepicker.js'%}"></script>
+
+    <!-- Main JS-->
+    <script src="{% static 'Customerreg/js/global.js'%}"></script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->

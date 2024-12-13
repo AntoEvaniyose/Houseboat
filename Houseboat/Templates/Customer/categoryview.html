@@ -1,0 +1,30 @@
+{% include 'customer/header.html' %}
+{% load static %}
+
+<br><br>
+<br>
+<br><br>
+<br><br>
+<br>
+<div class="container">
+    <div class="row">
+        {% for c in category %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
+                <!-- Thumbnail -->
+                <div class="bg-thumbnail bg-img" style="background-image: url({% static '../images/' %}{{ c.image }});"></div>
+                <!-- Price -->
+                <p class="price-from">{{ c.categoryname }}</p>
+                <!-- Rooms Text -->
+                <div class="rooms-text">
+                    <div class="line">
+                    </div>
+                </div>
+                <!-- Book Room -->
+                <a href="{% url 'packageview' id=c.categoryid %}" class="book-room-btn btn palatin-btn">View</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% include 'customer/footer.html' %}

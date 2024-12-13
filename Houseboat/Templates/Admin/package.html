@@ -1,0 +1,55 @@
+<!-- partial -->
+{% load static %}
+{% include 'Admin/header.html' %}
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Package Registeration</h4>
+                  <p class="card-description">
+
+                  </p>
+                  <form class="forms-sample" action="{% url 'package'%}" method="POST">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                    <label for="categoryid" >Select Category</label>
+                    <select class="form-control" aria-label="Large select example" id="categoryid" name="categoryid">
+                        <option selected >select</option>
+                        {% for d in category %}
+                        <option value="{{d.categoryid}}">{{d.categoryname}}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+                    <div class="form-group">
+                      <label for="packagename">Package Name</label>
+                      <input type="text" class="form-control" id="packagename" placeholder="packagename" name="packagename" required>
+                    </div>
+                      <div class="form-group">
+                      <label for="description">Description</label>
+                      <textarea class="form-control" id="description" placeholder="description" name="description" rows=4" maxlength="500" required></textarea>
+                    </div>
+                      <div class="form-group">
+                      <label for="amount">Amount</label>
+                      <input type="text" class="form-control" id="amount" placeholder="amount" name="amount" required pattern="^[0-9]+$" title="Enter only digits">
+                    </div>
+                      <div class="form-group">
+                      <label for="days">Number of Days</label>
+                      <input type="text" class="form-control" id="days" placeholder="days" name="days" required pattern="^[0-9]+$" title="Enter only digits">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    {% comment %}
+                    <button type="reset" class="btn btn-primary mr-2">Cancel</button>
+                    {% endcomment %}
+
+
+                  {{error}}
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% include 'Admin/footer.html' %}

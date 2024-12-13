@@ -1,0 +1,40 @@
+<!-- partial -->
+{% load static %}
+{% include 'Admin/header.html' %}
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Category Registeration</h4>
+                  <p class="card-description">
+
+                  </p>
+                  <form class="forms-sample" action="{% url 'category'%}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">Category Name</label>
+                      <input type="text" class="form-control" id="exampleInputUsername1" placeholder="categoryname" name="categoryname" required>
+                    </div>
+
+
+                    <div class="form-group">
+                      <label for="exampleInputEmail1" class="form-label">Category Image</label>
+                      <input class="form-control" type="file" id="formFile" name="image" required>
+                    </div>
+
+
+
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    {% comment %}
+                    <button type="reset" class="btn btn-primary mr-2">Cancel</button>
+                    {% endcomment %}
+
+
+                  {{error}}
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% include 'Admin/footer.html' %}

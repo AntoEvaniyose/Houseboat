@@ -1,0 +1,102 @@
+{% load static %}
+{% include 'Admin/header.html' %}
+<!-- dashboard inner -->
+<div class="">
+    <div class="">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>Payment List</h2>
+                </div>
+              <div>
+              <a href="{% url 'ExportExcelpayment' %}" class="btn btn-danger" style="ali">Export</a>
+          </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+<!--                        <div class="heading1 margin_0">-->
+<!--                            <h2> Applied </h2>-->
+<!--                        </div>-->
+                    </div>
+                    <div class="full price_table padding_infor_info">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive-sm">
+                                    <table class="table table-striped projects">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Sl.no
+                                            </th>
+                                            <th>
+                                                Customer Name
+                                            </th>
+                                            <th>
+                                                Owner Name
+                                            </th>
+                                            <th>
+                                                Boat Name
+                                            </th>
+                                            <th>
+                                                Payment Amount
+                                            </th>
+                                            <th>
+                                                Admin Amount
+                                            </th>
+                                            <th>
+                                                Payment Status
+                                            </th>
+
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for n in n %}
+                                        <tr>
+                                            <td>
+                                                {{forloop.counter}}
+                                            </td>
+
+                                            <td>
+                                                {{n.customerid__customername}}
+                                            </td>
+                                            <td>
+                                                {{n.requestid__boatid__loginid__tbl_owner__ownername}}
+                                            </td>
+                                            <td>
+                                                {{n.requestid__boatid__boatname}}
+                                            </td>
+                                            <td>
+                                                {{n.paymentamount}}
+                                            </td>
+                                            <td>
+                                                {{n.adminamount}}
+                                            </td>
+                                            <td>
+                                                {{n.paymentstatus}}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+    </div>
+
+</div>
+
+
+
+

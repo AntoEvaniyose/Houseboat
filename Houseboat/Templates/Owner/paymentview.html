@@ -1,0 +1,42 @@
+{% load static %}
+{% include 'Owner/header.html' %}
+<br><br><br><br><br>
+<div class="col-15">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">Payment View</h6>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">SI N0</th>
+                                    <th scope="col">Customer Name</th>
+                                    <th scope="col">Boat Name</th>
+                                    <th scope="col">Request Date</th>
+                                    <th scope="col">From Date</th>
+                                    <th scope="col">To Date</th>
+                                    <th scope="col">Number of Persons</th>
+                                    <th scope="col">total Amount</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for d in paymentview %}
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{d.customerid.customername}}</td>
+                                     <td>{{d.boatid.boatname}}</td>
+                                    <td>{{d.requestdate}}</td>
+                                    <td>{{d.fromdate}}</td>
+                                    <td>{{d.todate}}</td>
+                                    <td>{{d.persons}}</td>
+                                    <td>{{d.totalamount}}</td>
+                                    <td>{{d.requeststatus}}</td>
+
+                                </tr>
+                                {%endfor%}
+
+                            </table>
+                        </div>
+<br><br>
+
+                      {% include 'Owner/footer.html' %}

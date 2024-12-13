@@ -1,0 +1,60 @@
+<!-- partial -->
+{% load static %}
+{% include 'Admin/header.html' %}
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Edit Package</h4>
+                  <form method="POST" action="{% url 'editpackage' pac.packageid%}">
+                    {% csrf_token %}
+
+
+                      <div class="mb-3">
+                        <label class="form-label">Select Category</label>
+                        <select class="form-control" aria-label="Large select example" id="category" name="categoryname">
+                                        <option selected>select</option>
+                                        {% for d in category %}
+                                        {% if pac.categoryid.categoryid == d.categoryid %}
+                                        <option value="{{d.categoryid}}" selected>{{d.categoryname}}</option>
+                                        {% else %}
+
+                                        <option value="{{d.categoryid}}">{{d.categoryname}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+
+
+
+                    <div class="mb-3">
+                        <label class="form-label">Package Name</label>
+                        <input type="text" name="packagename" value='{{pac.packagename}}' class="form-control" id="packagename"
+                               aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <input type="text" name="description" value='{{pac.description}}' class="form-control" id="description"
+                               aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount</label>
+                        <input type="text" name="amount" value='{{pac.amount}}' class="form-control" id="amount"
+                               aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Number of Days</label>
+                        <input type="text" name="days" value='{{pac.days}}' class="form-control" id="days"
+                               aria-describedby="emailHelp" required>
+                    </div>
+
+
+                    <button type="submit" name="submit" class="btn btn-primary">DONE</button>
+                </form>
+                </div>
+              </div>
+            </div>
+            {% include 'Admin/footer.html' %}

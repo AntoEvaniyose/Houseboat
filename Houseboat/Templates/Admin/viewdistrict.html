@@ -1,0 +1,44 @@
+{% load static %}
+{% include 'Admin/header.html' %}
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-md-8 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+
+                  <h4 class="card-title">District View</h4>
+
+                  <table class="table">
+
+                                <thead>
+                                <tr>
+                                    <th>SI.No</th>
+                                    <th>District Name</th>
+
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for dist in districtview %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{dist.districtname}}</td>
+                                    <td><a onclick="window.location.href='{% url 'districtedit' id=dist.districtid %}'"
+                                           class="btn btn-primary">Edit</a></td>
+                                    <td>
+                                        <a onclick="window.location.href='{% url 'districtdelete' id=dist.districtid %}'"
+                                           class="btn btn-danger">Delete</a></td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+
+                            </table>
+                </div>
+              </div>
+            </div>
+
+{% include 'Admin/footer.html' %}

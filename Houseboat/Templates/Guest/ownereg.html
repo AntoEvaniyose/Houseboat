@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<script src="{% static 'Guest/js/jquery-3.2.1.min.js'%}"></script>
+
+<script>
+   $(document).ready(function()
+    {
+<!--alert('hi');-->
+        $.ajaxSetup({
+            headers: {"X-CSRFToken" : '{{csrf_token}}'}
+        });
+        $('#districtid').change(function()
+        {
+            var district=$(this).val();
+<!--            alert(district);-->
+            $.ajax({
+                type:"POST",
+                url:'{% url "selectlocation" %}',
+                data:{did:district},
+                dataType:"json",
+                success:function(data)
+                {
+                    $('#locationid').empty();
+                    var coll='<option value="">Choose Location</<option>';
+                    $('#locationid').append(coll);
+                    $.each(data,function(key,val){
+                    var col='<option name="location"  style="color:black;"value="' +val.locationid+' ">'+val.locationname+'</option>';
+                    $('#locationid').append(col);
+                    });
+                }
+            });
+        });
+    });
+
+
+
+
+
+
+
+
+</script>
+
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Au Register Forms by Colorlib</title>
+
+    <!-- Icons font CSS-->
+    <link href="{% static 'Ownerreg/vendor/mdi-font/css/material-design-iconic-font.min.css'%}" rel="stylesheet"
+          media="all">
+    <link href="{% static 'Ownerreg/vendor/font-awesome-4.7/css/font-awesome.min.css'%}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'Ownerreg/vendor/select2/select2.min.css'%}" rel="stylesheet" media="all">
+    <link href="{% static 'Ownerreg/vendor/datepicker/daterangepicker.css'%}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'Ownerreg/css/main.css'%}" rel="stylesheet" media="all">
+</head>
+
+<body>
+<div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w680">
+        <div class="card card-4">
+            <div class="card-body">
+                <h2 class="title">Owner Registration</h2>
+                <form action="{% url 'ownerreg'%}" method="POST">
+                    {% csrf_token %}
+                    <div class="row row-space">
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Owner Name</label>
+                                <input class="input--style-4" type="text" name="ownername" required>
+                            </div>
+                        </div>
+
+
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Select District</label>
+                                <select name="districtid" class="input--style-4" id="districtid">
+                                    <option selected>select</option>
+                                    {% for d in district %}
+                                    <option value="{{d.districtid}}">{{d.districtname}}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label for="locationid">Select Location</label><br>
+                                <select name="locationid" class="input--style-4" id="locationid">
+                                    <option selected disabled>select</option>
+<!--                                                                    {% for d in location %}-->
+<!--                                                                    <option value="{{d.locationid}}">{{d.locationname}}</option>-->
+<!--                                                                    {% endfor %}-->
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Email</label>
+                                <input class="input--style-4" type="email" name="email" required>
+                            </div>
+                        </div>
+
+
+                        <br>
+
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">License Number</label>
+                                <input class="input--style-4" type="text" name="licenseno" required>
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Contact Number</label>
+                                <input class="input--style-4" type="text" name="contactno" required>
+                            </div>
+                        </div>
+
+
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Username</label>
+                                <input class="input--style-4" type="text" name="username" required>
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Password</label>
+                                <input class="input--style-4" type="text" name="password" required>
+                            </div>
+                        </div>
+                        <br>
+
+
+                        <div class="p-t-15">
+                            <button class="btn btn--radius-2 btn--blue" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Jquery JS-->
+<script src="{% static 'Ownerreg/vendor/jquery/jquery.min.js'%}"></script>
+<!-- Vendor JS-->
+<script src="{% static 'Ownerreg/vendor/select2/select2.min.js'%}"></script>
+<script src="{% static 'Ownerreg/vendor/datepicker/moment.min.js'%}"></script>
+<script src="{% static 'Ownerreg/vendor/datepicker/daterangepicker.js'%}"></script>
+
+<!-- Main JS-->
+<script src="{% static 'Ownerreg/js/global.js'%}"></script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->

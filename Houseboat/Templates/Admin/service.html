@@ -1,0 +1,48 @@
+<!-- partial -->
+{% load static %}
+{% include 'Admin/header.html' %}
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Service Registeration</h4>
+                  <p class="card-description">
+
+                  </p>
+                  <form class="forms-sample" action="{% url 'service'%}" method="POST">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                    <label for="packageid">Select Package</label>
+                   <select class="form-control" aria-label="Large select example" id="packageid" name="packageid">
+                        <option selected>select</option>
+                        {% for d in package %}
+                        <option value="{{d.packageid}}">{{d.packagename}}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+                    <div class="form-group">
+                      <label for="servicename">Service Name</label>
+                      <input type="text" class="form-control" id="servicename" placeholder="servicename" name="servicename" required>
+                    </div>
+                      <div class="form-group">
+                      <label for="serviceamount">Service Amount</label>
+                      <input type="text" class="form-control" id="serviceamount" placeholder="serviceamount" name="serviceamount" required pattern="^[0-9]+$" title="Enter only digits">
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    {% comment %}
+                    <button type="reset" class="btn btn-primary mr-2">Cancel</button>
+                    {% endcomment %}
+
+
+                  {{error}}
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% include 'Admin/footer.html' %}
